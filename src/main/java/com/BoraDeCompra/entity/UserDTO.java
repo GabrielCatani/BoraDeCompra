@@ -3,15 +3,12 @@ package com.BoraDeCompra.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Entity
 @Data
-public class UserEntity {
+public class UserDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +22,6 @@ public class UserEntity {
     @JoinColumn(name = "useraddressentity_id")
     private UserAddressEntity address;
 
-    public UserEntity() {
+    public UserDTO() {
     }
 }
