@@ -16,7 +16,7 @@ import java.util.UUID;
 public class UserAddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
     @Min(1)
     private Integer streetNbr;
     @NotEmpty(message = "Address must have a street name")
