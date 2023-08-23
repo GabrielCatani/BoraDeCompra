@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class UserDTO {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +22,6 @@ public class UserDTO {
     @JoinColumn(name = "useraddressentity_id")
     private UserAddressEntity address;
 
-    public UserDTO() {
+    public UserEntity() {
     }
 }

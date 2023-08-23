@@ -1,6 +1,6 @@
 package com.BoraDeCompra.controller;
 
-import com.BoraDeCompra.entity.UserDTO;
+import com.BoraDeCompra.entity.UserEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,25 +9,25 @@ import java.util.List;
 @RestController()
 public class UserController {
     @GetMapping("/users")
-    List<UserDTO> getAll() {
-       return new ArrayList<UserDTO>();
+    List<UserEntity> getAll() {
+       return new ArrayList<UserEntity>();
     }
 
     @GetMapping("/users/{id}")
-    UserDTO getOne(@PathVariable Long id) {
+    UserEntity getOne(@PathVariable Long id) {
         System.out.println(id);
-        return new UserDTO();
+        return new UserEntity();
     }
 
     @PostMapping("/users")
-    UserDTO create(@RequestBody UserDTO user) {
-        return new UserDTO();
+    UserEntity create(@RequestBody UserEntity user) {
+        return new UserEntity();
     }
 
     @PutMapping("/users/{id}")
-    UserDTO update(@RequestBody UserDTO user, @PathVariable Long id) {
+    UserEntity update(@RequestBody UserEntity user, @PathVariable Long id) {
         System.out.println(id);
-        return new UserDTO();
+        return new UserEntity();
     }
 
     @DeleteMapping("/users/{id}")
