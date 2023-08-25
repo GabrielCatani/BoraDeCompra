@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 public class UserEntity {
@@ -18,9 +20,8 @@ public class UserEntity {
     private String cpf;
     @Email(message = "Invalid e-mail format")
     private String email;
-//    @ManyToOne
-//    @JoinColumn(name = "address_id")
-//    private UserAddressEntity address;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<UserAddressEntity> addresses;
 
     public UserEntity() {
     }

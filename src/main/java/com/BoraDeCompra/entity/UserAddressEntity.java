@@ -1,9 +1,6 @@
 package com.BoraDeCompra.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -27,6 +24,9 @@ public class UserAddressEntity {
     private String city;
     @NotEmpty(message = "Address must have a state")
     private String state;
+    @ManyToOne
+    @JoinColumn(name = "usrEntity_id")
+    private UserEntity userEntity;
 
     public UserAddressEntity() {
     }

@@ -1,20 +1,19 @@
 package com.BoraDeCompra.controller;
 
+import com.BoraDeCompra.DTO.UserAddressDTO;
 import com.BoraDeCompra.DTO.UserDTO;
-import com.BoraDeCompra.entity.UserEntity;
 import com.BoraDeCompra.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController()
+@RestController
+@RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
@@ -22,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<UserDTO> getOneUser(@PathVariable Long id) {
         UserDTO userDTO = null;
         try {
@@ -32,13 +31,13 @@ public class UserController {
         }
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
-    @GetMapping("/users")
+    @GetMapping()
     ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> userDTOS = this.userService.getAllUsers();
         return new ResponseEntity<>(userDTOS, HttpStatus.OK);
     }
 
-    @PostMapping("/users")
+    @PostMapping()
     ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         UserDTO savedUser;
         try {
@@ -50,7 +49,7 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
         try {
             userDTO.setId(id);
@@ -61,10 +60,32 @@ public class UserController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     ResponseEntity deleteUser(@PathVariable Long id) {
         this.userService.deleteUser(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    //TODO: Create Address to specific USer
+    @PostMapping("/{userId}/address")
+    ResponseEntity<UserAddressDTO> createUserAddress(@PathVariable Long userId, @RequestBody UserAddressDTO userAddressDTO) {
+        UserAddressDTO persistedUsrAddress = null;
+        try {
+            persistedUsrAddress = this.userService.addUserAddress(userId, userAddressDTO);
+        }
+        catch(EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch(ValidationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(persistedUsrAddress, HttpStatus.CREATED);
+    }
+
+    //TODO: Edit Address of User
+    //TODO: Delete Address of User
+    //TODO: List All Address of User
+
 
 }

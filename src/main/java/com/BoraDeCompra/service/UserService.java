@@ -1,5 +1,6 @@
 package com.BoraDeCompra.service;
 
+import com.BoraDeCompra.DTO.UserAddressDTO;
 import com.BoraDeCompra.DTO.UserDTO;
 import com.BoraDeCompra.entity.UserEntity;
 import com.BoraDeCompra.mapper.UserMapper;
@@ -22,13 +23,16 @@ public class UserService {
     private final UserRepo userRepo;
     private final UserMapper userMapper;
     private final Validator validator;
+    private final UserAddressService userAddressService;
 
     public UserService(UserRepo userRepo,
                        UserMapper userMapper,
-                       Validator validator) {
+                       Validator validator,
+                       UserAddressService userAddressService) {
         this.userRepo = userRepo;
         this.userMapper = userMapper;
         this.validator = validator;
+        this.userAddressService = userAddressService;
     }
 
     public UserDTO findById(Long id) {
@@ -79,5 +83,25 @@ public class UserService {
 
         UserEntity savedUser = this.userRepo.save(this.userMapper.toUserEntity(userDTO));
         return this.userMapper.toUserDTO(savedUser);
+    }
+
+    public UserAddressDTO addUserAddress(Long userId, UserAddressDTO userAddressDTO) {
+        try {
+            this.findById(userId);
+        }
+        catch(EntityNotFoundException e) {
+            throw new EntityNotFoundException();
+        }
+
+        //TODO: set userId to userAddress
+
+        try {
+            this.userAddressService.createNewAddress(userAddressDTO);
+        }
+        catch(ValidationException e) {
+            throw new ValidationException();
+        }
+
+        return userAddressDTO;
     }
 }

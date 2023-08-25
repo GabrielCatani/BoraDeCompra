@@ -1,5 +1,6 @@
 package com.BoraDeCompra.DTO;
 
+import com.BoraDeCompra.entity.UserEntity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -13,4 +14,5 @@ public class UserAddressDTO {
     private String zipCode;
     private String city;
     private String state;
+    //private UserEntity userEntity;
 }
