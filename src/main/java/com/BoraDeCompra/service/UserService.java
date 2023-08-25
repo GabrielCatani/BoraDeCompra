@@ -12,6 +12,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,10 +32,9 @@ public class UserService {
 
     public UserDTO findById(Long id) {
         Optional opt = this.userRepo.findById(id);
-        UserEntity user = null;
 
         if (opt.isPresent()) {
-            user = (UserEntity) opt.get();
+             return this.userMapper.toUserDTO((UserEntity) opt.get());
         }
         throw new EntityNotFoundException();
     }
@@ -49,5 +49,9 @@ public class UserService {
             throw new ValidationException();
         }
         return this.userMapper.toUserDTO(this.userRepo.saveAndFlush(user));
+    }
+
+    public List<UserDTO> getAllUsers() {
+        return this.userMapper.toUserDTOs((this.userRepo.findAll()));
     }
 }

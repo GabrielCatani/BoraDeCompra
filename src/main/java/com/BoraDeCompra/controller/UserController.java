@@ -30,11 +30,12 @@ public class UserController {
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(userDTO, HttpStatus.FOUND);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
     @GetMapping("/users")
-    List<UserDTO> getAllUsers() {
-        return new ArrayList<UserDTO>();
+    ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> userDTOS = this.userService.getAllUsers();
+        return new ResponseEntity<>(userDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/users")
