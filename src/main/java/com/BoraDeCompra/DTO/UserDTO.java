@@ -9,5 +9,5 @@ public class UserDTO {
     private String name;
     private String cpf;
     private String email;
-    private UserAddressEntity address;
+    //private UserAddressEntity address;
 }

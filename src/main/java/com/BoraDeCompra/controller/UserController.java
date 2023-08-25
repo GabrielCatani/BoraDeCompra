@@ -4,8 +4,11 @@ import com.BoraDeCompra.DTO.UserDTO;
 import com.BoraDeCompra.entity.UserEntity;
 import com.BoraDeCompra.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -35,8 +38,15 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    UserDTO createUser(@RequestBody UserDTO userDTO) {
-        return new UserDTO();
+    ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        UserDTO savedUser;
+        try {
+            savedUser = this.userService.createNewUser(userDTO);
+        } catch(ValidationException e) {
+            return new ResponseEntity<>(userDTO, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     @PutMapping("/users/{id}")

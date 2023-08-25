@@ -18,9 +18,9 @@ public class UserEntity {
     private String cpf;
     @Email(message = "Invalid e-mail format")
     private String email;
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private UserAddressEntity address;
+//    @ManyToOne
+//    @JoinColumn(name = "address_id")
+//    private UserAddressEntity address;
 
     public UserEntity() {
     }
