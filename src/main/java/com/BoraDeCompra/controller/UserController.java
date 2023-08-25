@@ -51,9 +51,14 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
-        System.out.println(id);
-        return new UserDTO();
+    ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+        try {
+            userDTO.setId(id);
+            this.userService.editUser(userDTO);
+        } catch (EntityNotFoundException | IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")

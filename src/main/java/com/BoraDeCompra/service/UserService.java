@@ -7,6 +7,7 @@ import com.BoraDeCompra.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
+import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -65,5 +66,18 @@ public class UserService {
         if (userExists) {
             this.userRepo.deleteById(id);
         }
+    }
+
+    public UserDTO editUser(UserDTO userDTO) {
+        try {
+            this.userRepo.getReferenceById(userDTO.getId());
+        }
+        catch(EntityNotFoundException e) {
+            System.err.println("User not registered");
+            throw new EntityNotFoundException();
+        }
+
+        UserEntity savedUser = this.userRepo.save(this.userMapper.toUserEntity(userDTO));
+        return this.userMapper.toUserDTO(savedUser);
     }
 }
