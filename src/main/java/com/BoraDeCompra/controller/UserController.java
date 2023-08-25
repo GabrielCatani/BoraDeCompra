@@ -3,6 +3,7 @@ package com.BoraDeCompra.controller;
 import com.BoraDeCompra.DTO.UserDTO;
 import com.BoraDeCompra.entity.UserEntity;
 import com.BoraDeCompra.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +21,12 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     ResponseEntity<UserDTO> getOneUser(@PathVariable Long id) {
-        UserDTO userDTO = this.userService.findById(id);
-        if (userDTO == null) {
+        UserDTO userDTO = null;
+        try {
+            userDTO = this.userService.findById(id);
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<>(userDTO, HttpStatus.FOUND);
     }
     @GetMapping("/users")

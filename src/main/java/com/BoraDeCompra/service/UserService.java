@@ -4,6 +4,7 @@ import com.BoraDeCompra.DTO.UserDTO;
 import com.BoraDeCompra.entity.UserEntity;
 import com.BoraDeCompra.mapper.UserMapper;
 import com.BoraDeCompra.repository.UserRepo;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,6 +26,6 @@ public class UserService {
         if (opt.isPresent()) {
             user = (UserEntity) opt.get();
         }
-        return this.userMapper.toUserDTO(user);
+        throw new EntityNotFoundException();
     }
 }
