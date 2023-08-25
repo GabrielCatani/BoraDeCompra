@@ -54,4 +54,16 @@ public class UserService {
     public List<UserDTO> getAllUsers() {
         return this.userMapper.toUserDTOs((this.userRepo.findAll()));
     }
+
+    public void deleteUser(Long id) {
+        Boolean userExists = false;
+        try {
+            userExists = this.userRepo.existsById(id);
+        } catch (IllegalArgumentException e) {
+            System.err.println("id not assign to any user");
+        }
+        if (userExists) {
+            this.userRepo.deleteById(id);
+        }
+    }
 }
