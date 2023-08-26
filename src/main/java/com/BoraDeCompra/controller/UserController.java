@@ -66,7 +66,6 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    //TODO: Create Address to specific USer
     @PostMapping("/{userId}/address")
     ResponseEntity<UserAddressDTO> createUserAddress(@PathVariable Long userId, @RequestBody UserAddressDTO userAddressDTO) {
         UserAddressDTO persistedUsrAddress = null;

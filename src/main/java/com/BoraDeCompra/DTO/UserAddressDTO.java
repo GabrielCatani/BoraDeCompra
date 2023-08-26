@@ -14,5 +14,5 @@ public class UserAddressDTO {
     private String zipCode;
     private String city;
     private String state;
-    //private UserEntity userEntity;
+    private UserEntity userEntity;
 }

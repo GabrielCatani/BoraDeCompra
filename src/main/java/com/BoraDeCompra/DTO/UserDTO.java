@@ -11,5 +11,4 @@ public class UserDTO {
     private String name;
     private String cpf;
     private String email;
-    private List<UserAddressEntity> addresses;
 }
