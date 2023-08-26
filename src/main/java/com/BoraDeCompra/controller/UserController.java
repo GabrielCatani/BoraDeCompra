@@ -98,7 +98,12 @@ public class UserController {
         return new ResponseEntity<>(userAddressDTOS, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{userId}/address/{addressId}")
+    ResponseEntity deleteUserAddress(@PathVariable Long userId, @PathVariable  Long addressId) {
+        this.userService.removeUserAddress(userId, addressId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     //TODO: Edit Address of User
-    //TODO: Delete Address of User
+
 }

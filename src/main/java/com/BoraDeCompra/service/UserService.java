@@ -104,4 +104,16 @@ public class UserService {
 
         return persistedAddress;
     }
+
+    public void removeUserAddress(Long userId, Long addressId) {
+        if (!this.userRepo.existsById(userId)) {
+            throw new EntityNotFoundException();
+        }
+
+        try {
+           this.userAddressService.deleteAddress(addressId);
+        } catch (EntityNotFoundException e) {
+
+        }
+    }
 }

@@ -47,6 +47,7 @@ public class UserAddressService {
         return this.userAddressMapper.toAddressDTO(this.userAddressRepo.saveAndFlush(userAddress));
     }
 
+    //TODO: make a method from UserService call this method
     public List<UserAddressDTO> listAllUserAddresses(Long userId) {
         if(!this.userRepo.existsById(userId)) {
             throw new EntityNotFoundException();
@@ -56,8 +57,14 @@ public class UserAddressService {
         return this.userAddressMapper.toListAddressDTO(userAddresses);
     }
 
+    public void deleteAddress(Long id) {
+        if (!this.userAddressRepo.existsById(id)) {
+            throw new EntityNotFoundException();
+        }
+
+        this.userAddressRepo.deleteById(id);
+    }
 
     //TODO: findById
-    //TODO: Delete Address
     //TODO: Edit Address
 }
