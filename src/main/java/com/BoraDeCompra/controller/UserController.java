@@ -86,8 +86,6 @@ public class UserController {
         return new ResponseEntity<>(persistedUsrAddress, HttpStatus.CREATED);
     }
 
-    //TODO: List All Address of User
-    //TODO: Fix bug -> Returning address, with all user info, and all address of user.
     @GetMapping("/{userId}/address")
     ResponseEntity<List<UserAddressDTO>> listUserAddresses(@PathVariable Long userId) {
         List<UserAddressDTO> userAddressDTOS;

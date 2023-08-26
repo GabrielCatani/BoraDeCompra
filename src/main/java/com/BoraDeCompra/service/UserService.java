@@ -93,15 +93,15 @@ public class UserService {
             throw new EntityNotFoundException();
         }
 
-        //TODO: set userId to userAddress
+        UserAddressDTO persistedAddress;
 
         try {
-            this.userAddressService.createNewAddress(userAddressDTO);
+            persistedAddress = this.userAddressService.createNewAddress(userAddressDTO, userId);
         }
         catch(ValidationException e) {
             throw new ValidationException();
         }
 
-        return userAddressDTO;
+        return persistedAddress;
     }
 }

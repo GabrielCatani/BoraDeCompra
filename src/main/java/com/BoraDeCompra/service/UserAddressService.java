@@ -33,7 +33,7 @@ public class UserAddressService {
         this.userRepo = userRepo;
     }
 
-    public UserAddressDTO createNewAddress(UserAddressDTO userAddressDTO) {
+    public UserAddressDTO createNewAddress(UserAddressDTO userAddressDTO, Long userId) {
         UserAddressEntity userAddress = this.userAddressMapper.toAddress(userAddressDTO);
         BindingResult result = new BeanPropertyBindingResult(userAddress, "UserAddressEntity");
 
@@ -43,10 +43,10 @@ public class UserAddressService {
             throw new ValidationException();
         }
 
+        userAddress.setUserEntity(this.userRepo.getReferenceById(userId));
         return this.userAddressMapper.toAddressDTO(this.userAddressRepo.saveAndFlush(userAddress));
     }
 
-    //TODO: getListOFAddressByUserID
     public List<UserAddressDTO> listAllUserAddresses(Long userId) {
         if(!this.userRepo.existsById(userId)) {
             throw new EntityNotFoundException();
