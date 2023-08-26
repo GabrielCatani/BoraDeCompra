@@ -74,23 +74,24 @@ public class UserService {
     }
 
     public UserDTO editUser(UserDTO userDTO) {
-        try {
-            this.userRepo.getReferenceById(userDTO.getId());
-        }
-        catch(EntityNotFoundException e) {
-            System.err.println("User not registered");
+        if (!this.userRepo.existsById(userDTO.getId())) {
             throw new EntityNotFoundException();
         }
 
         UserEntity savedUser = this.userRepo.save(this.userMapper.toUserEntity(userDTO));
+        BindingResult result = new BeanPropertyBindingResult(savedUser, "UserEntity");
+
+        this.validator.validate(savedUser, result);
+
+        if (result.hasErrors()) {
+            throw new ValidationException();
+        }
+
         return this.userMapper.toUserDTO(savedUser);
     }
 
     public UserAddressDTO addUserAddress(Long userId, UserAddressDTO userAddressDTO) {
-        try {
-            this.findById(userId);
-        }
-        catch(EntityNotFoundException e) {
+        if (!this.userRepo.existsById(userId)) {
             throw new EntityNotFoundException();
         }
 
