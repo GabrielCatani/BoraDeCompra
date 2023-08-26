@@ -65,6 +65,24 @@ public class UserAddressService {
         this.userAddressRepo.deleteById(id);
     }
 
+    public UserAddressDTO editAddress(UserAddressDTO userAddressDTO, Long userId) {
+        if (!userAddressRepo.existsById(userAddressDTO.getId())) {
+            throw new EntityNotFoundException();
+        }
+
+        UserAddressEntity addressToValidate = this.userAddressMapper.toAddress(userAddressDTO);
+        addressToValidate.setUserEntity(this.userRepo.getReferenceById(userId));
+        BindingResult result = new BeanPropertyBindingResult(addressToValidate, "UserAddressEntity");
+
+        this.validator.validate(addressToValidate, result);
+
+        if (result.hasErrors()) {
+            throw new ValidationException();
+        }
+
+        return this.userAddressMapper.toAddressDTO(this.userAddressRepo.save(addressToValidate));
+    }
+
     //TODO: findById
-    //TODO: Edit Address
+
 }

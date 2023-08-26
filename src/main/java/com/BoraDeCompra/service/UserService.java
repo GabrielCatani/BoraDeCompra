@@ -2,6 +2,7 @@ package com.BoraDeCompra.service;
 
 import com.BoraDeCompra.DTO.UserAddressDTO;
 import com.BoraDeCompra.DTO.UserDTO;
+import com.BoraDeCompra.entity.UserAddressEntity;
 import com.BoraDeCompra.entity.UserEntity;
 import com.BoraDeCompra.mapper.UserMapper;
 import com.BoraDeCompra.repository.UserRepo;
@@ -115,5 +116,23 @@ public class UserService {
         } catch (EntityNotFoundException e) {
 
         }
+    }
+
+    public UserAddressDTO editUserAddress(Long userId, UserAddressDTO userAddressDTO) {
+        if (!this.userRepo.existsById(userId)) {
+            throw new EntityNotFoundException();
+        }
+
+        try {
+            this.userAddressService.editAddress(userAddressDTO, userId);
+        }
+        catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException();
+        }
+        catch (ValidationException e) {
+            throw new ValidationException();
+        }
+
+        return userAddressDTO;
     }
 }

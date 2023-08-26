@@ -100,10 +100,28 @@ public class UserController {
 
     @DeleteMapping("/{userId}/address/{addressId}")
     ResponseEntity deleteUserAddress(@PathVariable Long userId, @PathVariable  Long addressId) {
-        this.userService.removeUserAddress(userId, addressId);
+        try {
+            this.userService.removeUserAddress(userId, addressId);
+        }
+        catch (EntityNotFoundException e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    //TODO: Edit Address of User
+    @PutMapping("/{userId}/address")
+    ResponseEntity<UserAddressDTO> updateUserAddress(@PathVariable Long userId, @RequestBody UserAddressDTO userAddressDTO) {
+        try {
+            this.userService.editUserAddress(userId, userAddressDTO);
+        }
+        catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (ValidationException e) {
+            return new ResponseEntity<>(userAddressDTO, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(userAddressDTO, HttpStatus.OK);
+    }
 
 }
