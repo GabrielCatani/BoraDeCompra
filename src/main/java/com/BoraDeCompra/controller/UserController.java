@@ -2,6 +2,7 @@ package com.BoraDeCompra.controller;
 
 import com.BoraDeCompra.DTO.UserAddressDTO;
 import com.BoraDeCompra.DTO.UserDTO;
+import com.BoraDeCompra.service.UserAddressService;
 import com.BoraDeCompra.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
@@ -17,8 +18,11 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
-    public UserController(UserService userService) {
+    private UserAddressService userAddressService;
+
+    public UserController(UserService userService, UserAddressService userAddressService) {
         this.userService = userService;
+        this.userAddressService = userAddressService;
     }
 
     @GetMapping("/{id}")
@@ -82,9 +86,21 @@ public class UserController {
         return new ResponseEntity<>(persistedUsrAddress, HttpStatus.CREATED);
     }
 
+    //TODO: List All Address of User
+    //TODO: Fix bug -> Returning address, with all user info, and all address of user.
+    @GetMapping("/{userId}/address")
+    ResponseEntity<List<UserAddressDTO>> listUserAddresses(@PathVariable Long userId) {
+        List<UserAddressDTO> userAddressDTOS;
+        try {
+             userAddressDTOS = this.userAddressService.listAllUserAddresses(userId);
+        }
+        catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userAddressDTOS, HttpStatus.OK);
+    }
+
+
     //TODO: Edit Address of User
     //TODO: Delete Address of User
-    //TODO: List All Address of User
-
-
 }

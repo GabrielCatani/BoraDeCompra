@@ -1,5 +1,6 @@
 package com.BoraDeCompra.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,6 +27,7 @@ public class UserAddressEntity {
     private String state;
     @ManyToOne
     @JoinColumn(name = "usrEntity_id")
+    @JsonBackReference
     private UserEntity userEntity;
 
     public UserAddressEntity() {

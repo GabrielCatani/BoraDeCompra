@@ -1,5 +1,6 @@
 package com.BoraDeCompra.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,6 +22,7 @@ public class UserEntity {
     @Email(message = "Invalid e-mail format")
     private String email;
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<UserAddressEntity> addresses;
 
     public UserEntity() {
