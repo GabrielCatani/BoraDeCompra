@@ -52,6 +52,7 @@ public class UserService {
         this.validator.validate(user, result);
 
         if (result.hasErrors()) {
+            System.out.println(result.toString());
             throw new ValidationException();
         }
         return this.userMapper.toUserDTO(this.userRepo.saveAndFlush(user));

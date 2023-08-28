@@ -17,7 +17,7 @@ public class UserDTO {
     public UserDTO(String name, String username, String password, String cpf, String email) {
         this.name = name;
         this.username = username;
-        this.password = null;
+        this.password = password;
         this.cpf = cpf;
         this.email = email;
     }
