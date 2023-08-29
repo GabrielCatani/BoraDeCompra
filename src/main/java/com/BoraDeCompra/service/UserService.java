@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
 import org.mapstruct.control.MappingControl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -26,14 +27,18 @@ public class UserService {
     private final Validator validator;
     private final UserAddressService userAddressService;
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public UserService(UserRepo userRepo,
                        UserMapper userMapper,
                        Validator validator,
-                       UserAddressService userAddressService) {
+                       UserAddressService userAddressService,
+                       BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userRepo = userRepo;
         this.userMapper = userMapper;
         this.validator = validator;
         this.userAddressService = userAddressService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public UserDTO findById(Long id) {
@@ -55,6 +60,7 @@ public class UserService {
             System.out.println(result.toString());
             throw new ValidationException();
         }
+        user.setPassword(this.bCryptPasswordEncoder.encode(userDTO.getPassword()));
         return this.userMapper.toUserDTO(this.userRepo.saveAndFlush(user));
     }
 
