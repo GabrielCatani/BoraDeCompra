@@ -33,7 +33,7 @@ public class LoginController {
         return new ResponseEntity<>(this.loginService.logar(login), HttpStatus.OK);
     }
 
-    //TODO: remove after devolpment
+    //TODO: remove after development
     @PostMapping("/validate")
     public ResponseEntity<Jws<Claims>> valida(@RequestBody TokenDTO tokenDTO) {
         Jws<Claims> jwt;
