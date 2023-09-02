@@ -15,9 +15,15 @@ public class LoginService {
 
 
     private AuthenticationManager authManager;
+    private AuthService authService;
+    private JwtService jwtService;
 
-    public LoginService(AuthenticationManager authManager) {
+    public LoginService(AuthenticationManager authManager,
+                        AuthService authService,
+                        JwtService jwtService) {
         this.authManager = authManager;
+        this.authService = authService;
+        this.jwtService = jwtService;
     }
 
 
@@ -26,8 +32,13 @@ public class LoginService {
         UsernamePasswordAuthenticationToken authReq =
                 new UsernamePasswordAuthenticationToken(loginDTO.username(), loginDTO.password());
 
+        //Authenticates user to Security Context
         this.authManager.authenticate(authReq);
 
-        return new TokenDTO("XXXXXXXXXXX");
+        //Get Full Entity on DB, to generate JWT Service
+        this.authService.loadUserByUsername(loginDTO.username());
+
+        //Form and return TokenDTO
+        return new TokenDTO(this.jwtService.createToken(loginDTO.username()));
     }
 }

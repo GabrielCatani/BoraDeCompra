@@ -12,10 +12,6 @@ import java.util.Optional;
 
 @Service
 public class AuthService implements UserDetailsService {
-    //TODO: AuthService -> handle userRepo access
-    // creates Authentication object and
-    // adds it (authenticates it) to AuthenticationManager
-    // to be used in filter, to retrieve username
    private final UserRepo userRepo;
 
     public AuthService(UserRepo userRepo) {

@@ -25,6 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain config(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
+                .headers((headers) -> headers.frameOptions((frameOptionsConfig) -> frameOptionsConfig.disable()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/users", HttpMethod.POST.name())).permitAll()
